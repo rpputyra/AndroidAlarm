@@ -5,17 +5,25 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationClient;
@@ -27,13 +35,46 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Button fab = (Button) findViewById(R.id.button3);
-        fab.setOnClickListener(new View.OnClickListener() {
+
+        //These buttons are for switching activities.
+        Button new_alarm_btn = (Button) findViewById(R.id.new_alarm_btn);
+        new_alarm_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createAlarm();
+                Intent intent = new Intent(getApplicationContext(), CreateAlarm.class);
+                startActivity(intent);
             }
         });
+        Button new_timer_btn = findViewById(R.id.new_timer_btn);
+        new_timer_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Need to make new Activity for this", Toast.LENGTH_LONG);
+            }
+        });
+        Button new_location_btn = findViewById(R.id.new_location_btn);
+        new_location_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Need to make new Activity for this", Toast.LENGTH_LONG);
+            }
+        });
+
+        /*
+        The following is setting up the List View Using an array List Adapter
+        TODO: It's currently using an ArrayList<String> This should be changed to ArrayList<Alarm> as soon as we have that running
+         */
+        ListView alarm_list = findViewById(R.id.alarm_listview);
+        String[] items = new String[]{"List Item 1", "List Item 2"};//Temporary. We just need items in an arrayList, it's currently used in alarmsList to be those items
+        ArrayList<String> alarmsList = new ArrayList<>(Arrays.asList(items) );
+
+        //based on some research the items in the array list may need to be set up as text items to have more formatting.
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, alarmsList );//TODO: this should become a list of alarms
+
+        alarm_list.setAdapter(arrayAdapter);
+
+
+
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         //This is pending further handling
@@ -84,12 +125,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-
-    //Class for switching between activities
-    public void createAlarm(){
-        Intent intent = new Intent(this, CreateAlarm.class);
-        startActivity(intent);
     }
 }

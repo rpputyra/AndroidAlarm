@@ -1,5 +1,6 @@
 package com.example.arthas.androidalarm;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -18,6 +20,8 @@ public class CreateAlarm extends AppCompatActivity {
     Button next; //next is used for switching from time to date
     Button create_alarm;
 
+    //Variables to be passed into a new alarm Item
+    String name;
     int hour;
     int minute;
     int day;
@@ -36,6 +40,8 @@ public class CreateAlarm extends AppCompatActivity {
         time_picker.setVisibility(View.GONE);
         date_picker = findViewById(R.id.date_picker);
         date_picker.setVisibility(View.GONE);
+
+        final EditText alarm_name = findViewById(R.id.alarm_name);
 
         //set up the button for time and date, I have the onclick listeners separate because it was faster at the time
         alarm_time_date = findViewById(R.id.alarm_time_date);
@@ -77,16 +83,22 @@ public class CreateAlarm extends AppCompatActivity {
         });
 
 
-        //the create button should exit this Activity and create a new alarm. 
+        //the create button should exit this Activity and create a new alarm.
         create_alarm = findViewById(R.id.create_alarm);
         create_alarm.setVisibility(View.GONE);
+
         create_alarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 day = date_picker.getDayOfMonth();
-                 month = date_picker.getMonth();
-                 year = date_picker.getYear();
-                 Log.i("Time:Date", month + "/" + day + "/" + year);
+
+                name = alarm_name.getText().toString();
+                day = date_picker.getDayOfMonth();
+                month = date_picker.getMonth();
+                year = date_picker.getYear();
+                Log.i("Time:Date", month + "/" + day + "/" + year);
+                Log.i("Time:Date", name );
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
             }
         });
     }
