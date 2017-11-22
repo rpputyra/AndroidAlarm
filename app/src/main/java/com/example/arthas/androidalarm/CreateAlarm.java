@@ -5,73 +5,86 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-public class CreateAlarm extends AppCompatActivity {
+public class CreateAlarm extends AppCompatActivity implements TimePicker.OnTimeChangedListener {
 
     TimePicker time_picker;
     DatePicker date_picker;
-    EditText alarm_time;
-    EditText alarm_date;
+    Button alarm_time;
+    Button next; //next is used for switching from time to date
+    Button create_alarm;
+
+    String time;
+    String date;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_alarm);
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         time_picker = findViewById(R.id.time_picker);
         time_picker.setVisibility(View.GONE);
+        time_picker.setOnTimeChangedListener(this);
 
 
         date_picker = findViewById(R.id.date_picker);
         date_picker.setVisibility(View.GONE);
 
-        //time button, on click should open the time picker
-        alarm_date = findViewById(R.id.alarm_date);
-        alarm_date.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        alarm_time = findViewById(R.id.alarm_time);
+        alarm_time.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus) {
-                    Toast.makeText(getApplicationContext(), "CreateAlarm line 37. Focus Change to Date", Toast.LENGTH_LONG).show();
-                    date_picker.bringToFront();
-                    date_picker.setVisibility(View.VISIBLE);
-                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-                }
+            public void onClick(View v){
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+                Toast.makeText(getApplicationContext(), "CreateAlarm line 47. Focus Change to Time.", Toast.LENGTH_LONG);
+                alarm_time.setVisibility(View.GONE);
+                time_picker.bringToFront();
+                date_picker.setVisibility(View.GONE);
+                time_picker.setVisibility(View.VISIBLE);
+                next.setVisibility(View.VISIBLE);
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
             }
         });
 
-        alarm_time = findViewById(R.id.alarm_time);
-        alarm_time.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        next = findViewById(R.id.time_okay);
+        next.setVisibility(View.GONE);
+        next.setOnClickListener(new View.OnClickListener(){
+
             @Override
-            public void onFocusChange(View v, boolean hasFocus){
-                if (hasFocus) {
-                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-                    Toast.makeText(getApplicationContext(), "CreateAlarm line 47. Focus Change to Time.", Toast.LENGTH_LONG);
-                    time_picker.bringToFront();
-                    time_picker.setVisibility(View.VISIBLE);
-
-
-                }
+            public void onClick(View v){
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+                Toast.makeText(getApplicationContext(), "CreateAlarm line 47. Focus Change to Time.", Toast.LENGTH_LONG);
+                time_picker.bringToFront();
+                date_picker.setVisibility(View.VISIBLE);
+                time_picker.setVisibility(View.GONE);
+                next.setVisibility(View.GONE);
+                create_alarm.setVisibility(View.VISIBLE);
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
             }
         });
 
         Toast.makeText(getApplicationContext(), "HELP", Toast.LENGTH_SHORT);
 
+
+        create_alarm = findViewById(R.id.create_alarm);
+        create_alarm.setVisibility(View.GONE);
+        create_alarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                 Toast.makeText(getApplicationContext(), "TO BE SET", Toast.LENGTH_LONG);
+            }
+        });
     }
 
-   /* @Override
-    public void onFocusChange(View view, boolean b) {
-        Toast.makeText(this, "Boolean: " + b, Toast.LENGTH_LONG);
-        if (alarm_date.hasFocus()){
-            Toast.makeText(getApplicationContext(), view.getId() + " : " + view.getTransitionName(), Toast.LENGTH_SHORT);
-        }
-        else if (alarm_time.hasFocus() ){
-            Toast.makeText(getApplicationContext(), view.getId() + " : " + view.getTransitionName(), Toast.LENGTH_SHORT);
-        }
-
-    }*/
-
+    @Override
+    public void onTimeChanged(TimePicker timePicker, int i, int i1) {
+            time = timePicker.toString();
+            Toast.makeText(getApplicationContext(), time + "HELLO", Toast.LENGTH_LONG);
+    }
 }
