@@ -54,7 +54,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/alarm_time"
+        android:id="@+id/alarm_time_date"
         android:layout_width="216dp"
         android:layout_height="41dp"
         android:text="@string/time_date_button"
@@ -72,7 +72,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/alarm_time"
+        app:layout_constraintTop_toBottomOf="@+id/alarm_time_date"
         app:layout_constraintVertical_bias="0.685" />
 
 </android.support.constraint.ConstraintLayout>
