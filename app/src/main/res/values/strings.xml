@@ -6,6 +6,7 @@
     <string name="time_date_button">Time and Date</string>
     <string name="next_button">Next</string>
     <string name="new_alarm">+ Alarm</string>
-    <string name="new_timer">+ Timer</string>
+    <string name="new_timer">+ Repeating</string>
     <string name="new_location_alarm">+ Location Alarm</string>
+    <string name="title_activity_create_repeating_alarm">create_repeating_alarm</string>
 </resources>

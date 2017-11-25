@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,7 +15,6 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -24,7 +22,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationClient;
@@ -57,13 +54,21 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        Button new_timer_btn = findViewById(R.id.new_timer_btn);
+
+        Button new_timer_btn = findViewById(R.id.new_repeating_btn);
         new_timer_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Need to make new Activity for this", Toast.LENGTH_LONG);
+                //vain attempts to prevent the alarm list view from containing duplicates
+                arrayAdapter = null;
+                alarm_list.setAdapter(null);
+
+                //change activities
+                Intent intent = new Intent(getApplicationContext(), CreateRepeatingAlarm.class);
+                startActivity(intent);
             }
         });
+
         Button new_location_btn = findViewById(R.id.new_location_btn);
         new_location_btn.setOnClickListener(new View.OnClickListener() {
             @Override

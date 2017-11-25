@@ -24,39 +24,38 @@
     </android.support.design.widget.AppBarLayout>
 
     <Button
-        android:id="@+id/new_timer_btn"
-        android:layout_width="95dp"
-        android:layout_height="46dp"
+        android:id="@+id/new_repeating_btn"
+        android:layout_width="131dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="1dp"
         android:layout_marginTop="12dp"
         android:layout_weight="1"
         android:text="@string/new_timer"
         app:layout_constraintEnd_toStartOf="@+id/new_location_btn"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/new_alarm_btn"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
     <Button
         android:id="@+id/new_alarm_btn"
-        android:layout_width="95dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
         android:layout_marginTop="12dp"
         android:layout_weight="1"
         android:text="@string/new_alarm"
-        app:layout_constraintEnd_toStartOf="@+id/new_timer_btn"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toStartOf="@+id/new_repeating_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
     <Button
         android:id="@+id/new_location_btn"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="7dp"
-        android:layout_marginStart="17dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="2dp"
         android:layout_marginTop="14dp"
         android:text="@string/new_location_alarm"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/new_timer_btn"
+        app:layout_constraintStart_toEndOf="@+id/new_repeating_btn"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
     <ListView
