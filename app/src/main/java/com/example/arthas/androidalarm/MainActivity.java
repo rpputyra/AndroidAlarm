@@ -9,6 +9,7 @@ import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +29,11 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationClient;
 
+    //an array list of alarms to fill the list view
+    public static ArrayList<Alarm> alarmArrayList = new ArrayList<>();
+    private ListView alarm_list;
+    ArrayAdapter<Alarm> arrayAdapter;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +47,12 @@ public class MainActivity extends AppCompatActivity {
         new_alarm_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //vain attempts to prevent the alarm list view from containing duplicates
+                arrayAdapter = null;
+                alarm_list.setAdapter(null);
+
+                //change activities
                 Intent intent = new Intent(getApplicationContext(), CreateAlarm.class);
                 startActivity(intent);
             }
@@ -62,15 +74,27 @@ public class MainActivity extends AppCompatActivity {
 
         /*
         The following is setting up the List View Using an array List Adapter
-        TODO: It's currently using an ArrayList<String> This should be changed to ArrayList<Alarm> as soon as we have that running
+        TODO: This is using an array list of alarms to set up the list view which seems to be wroking.
          */
-        ListView alarm_list = findViewById(R.id.alarm_listview);
-        String[] items = new String[]{"List Item 1", "List Item 2"};//Temporary. We just need items in an arrayList, it's currently used in alarmsList to be those items
-        ArrayList<String> alarmsList = new ArrayList<>(Arrays.asList(items) );
+        alarm_list = findViewById(R.id.alarm_listview);
+
+        //TEST ALARM
+        SpecificAlarm alarm = new SpecificAlarm();
+        alarm.setAlarmName("New Years Alarm");
+        try {
+            alarm.setAlarm(2018, 1, 1, 0, 0, 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i("Alarm", "Alarm Breaking on Creation");
+        }
+        Log.i("ALARM", alarm.toString());
+
+        alarmArrayList.add(alarm);//add the TEST alarm to the arraylist of alarms
 
         //based on some research the items in the array list may need to be set up as text items to have more formatting.
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, alarmsList );//TODO: this should become a list of alarms
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, alarmArrayList );//TODO: this should become a list of alarms
 
+        //set the adapter with the alarms as the adapter for the list view
         alarm_list.setAdapter(arrayAdapter);
 
 

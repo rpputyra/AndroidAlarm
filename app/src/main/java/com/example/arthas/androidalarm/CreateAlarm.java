@@ -1,7 +1,10 @@
 package com.example.arthas.androidalarm;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +31,7 @@ public class CreateAlarm extends AppCompatActivity {
     int month;
     int year;
 
+    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +68,7 @@ public class CreateAlarm extends AppCompatActivity {
         next = findViewById(R.id.time_okay);
         next.setVisibility(View.GONE);
         next.setOnClickListener(new View.OnClickListener(){
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v){
                 //again the keyboard was annoying me so I just put this everywhere
@@ -97,8 +102,19 @@ public class CreateAlarm extends AppCompatActivity {
                 year = date_picker.getYear();
                 Log.i("Time:Date", month + "/" + day + "/" + year);
                 Log.i("Time:Date", name );
+
+                SpecificAlarm alarm = new SpecificAlarm();
+                alarm.setAlarmName(name);
+                try {
+                    alarm.setAlarm(year, month, day, hour, minute, 0);
+                } catch (Exception e) {
+                    Log.d("Error Creating Alarm", "onClick of Create Alarm Button");
+                }
+
+                MainActivity.alarmArrayList.add(alarm);
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
+
             }
         });
     }
