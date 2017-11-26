@@ -118,6 +118,19 @@ public class CreateRepeatingAlarm extends AppCompatActivity {
                 Log.i("Time:Date", month + "/" + day + "/" + year);
                 Log.i("Time:Date", name );
 
+                //This if Else checks which Radio button is checked.
+                //I'd imagine you can send whichever one is active back through the intent
+                if (repeat_yearly.isChecked())
+                {
+                    Log.i("Active", "Will Repeat Yearly");
+                }
+                else if(repeat_monthly.isChecked()){
+                    Log.i("Active", "Will Repeat Montyly");
+                }
+                else if(repeat_30.isChecked()){
+                    Log.i("Active", "Will Repeat Every 30 Seconds");
+                }
+
                 SpecificAlarm alarm = new SpecificAlarm();
                 alarm.setAlarmName(name);
                 try {
