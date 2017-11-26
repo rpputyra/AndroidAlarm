@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         TODO: This is using an array list of alarms to set up the list view which seems to be wroking.
          */
         alarm_list = findViewById(R.id.alarm_listview);
-
+/*
         //TEST ALARM
         SpecificAlarm alarm = new SpecificAlarm();
         alarm.setAlarmName("New Years Alarm");
@@ -94,9 +94,9 @@ public class MainActivity extends AppCompatActivity {
         }
         Log.i("ALARM", alarm.toString());
 
-        alarmArrayList.add(alarm);//add the TEST alarm to the arraylist of alarms
+        alarmArrayList.add(alarm);//add the TEST alarm to the arraylist of alarms*/
 
-        //based on some research the items in the array list may need to be set up as text items to have more formatting.
+
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, alarmArrayList );//TODO: this should become a list of alarms
 
         //set the adapter with the alarms as the adapter for the list view

@@ -21,7 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateAlarm"></activity>
+        <activity android:name=".CreateAlarm" />
+        <activity
+            android:name=".CreateRepeatingAlarm"
+            android:label="@string/title_activity_create_repeating_alarm"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -2,6 +2,9 @@ package com.example.arthas.androidalarm;
 
 
 import android.icu.util.Calendar;
+import android.util.Log;
+
+import java.util.Locale;
 
 /**
  * The alarm will compare values between current* and set*. The values of current* will be set by
@@ -18,13 +21,24 @@ public class SpecificAlarm extends Alarm {
     //however Android studio is having none of it
     Calendar timepoint = Calendar.getInstance();
 
-
-
     public SpecificAlarm() {
+
         isSpecificAlarm = true;
+
     }
 
     public void setAlarm(int year, int month, int day, int hour, int minute, int second) throws Exception {
+
+        /*
+        timepoint.set(Calendar.YEAR, year);
+        timepoint.set(Calendar.MONTH, month);
+        timepoint.set(Calendar.DAY_OF_MONTH, day);
+        timepoint.set(Calendar.HOUR, hour);
+        timepoint.set(Calendar.MINUTE, minute);
+        timepoint.set(Calendar.SECOND, second);
+        */
+
+
         this.alarmYear = year;
         if (month > 12) {
             throw new IndexOutOfBoundsException("The number months exceeds the limit");
@@ -51,7 +65,7 @@ public class SpecificAlarm extends Alarm {
         } else {
             this.alarmSecond = second;
         }
-/*
+        /*
         if (!validTimer()){
             throw new Exception();
         }
@@ -103,8 +117,10 @@ public class SpecificAlarm extends Alarm {
 
     public int getCurrentSecond() {
         int second = timepoint.get(Calendar.SECOND);
+        int milisecond = timepoint.get(Calendar.MILLISECONDS_IN_DAY);
         return second;
     }
+
 
 
     //Compare system time to alarm time, and if boolean value is true, alarm should enable
@@ -121,6 +137,7 @@ public class SpecificAlarm extends Alarm {
 
     @Override
     public String toString(){
+        //Log.i("Alarm", timepoint.getDateTimeFormat(Calendar.DATE, Calendar.AM_PM, Locale.US).toString() );
         return getAlarmName() + ": Date " + getDateTime() + " Time " + getAlarmTime();
     }
 }
