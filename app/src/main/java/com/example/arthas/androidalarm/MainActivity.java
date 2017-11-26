@@ -45,10 +45,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                //vain attempts to prevent the alarm list view from containing duplicates
-                arrayAdapter = null;
-                alarm_list.setAdapter(null);
-
                 //change activities
                 Intent intent = new Intent(getApplicationContext(), CreateAlarm.class);
                 startActivity(intent);
@@ -59,9 +55,6 @@ public class MainActivity extends AppCompatActivity {
         new_timer_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //vain attempts to prevent the alarm list view from containing duplicates
-                arrayAdapter = null;
-                alarm_list.setAdapter(null);
 
                 //change activities
                 Intent intent = new Intent(getApplicationContext(), CreateRepeatingAlarm.class);
