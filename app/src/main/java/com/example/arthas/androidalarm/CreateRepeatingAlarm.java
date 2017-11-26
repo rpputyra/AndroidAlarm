@@ -14,6 +14,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TimePicker;
 
 //ToDo: Create Repeating alarm is currently a duplicate of Create Alarm It needs to be set up to create a repeating alarm
@@ -23,6 +25,12 @@ public class CreateRepeatingAlarm extends AppCompatActivity {
     Button alarm_time_date;
     Button next; //next is used for switching from time to date
     Button create_alarm;
+
+    //The Main difference from Create Alarm is the following radio buttons
+    RadioGroup repeatTime;
+    RadioButton repeat_monthly;
+    RadioButton repeat_yearly;
+    RadioButton repeat_30;
 
     //Variables to be passed into a new alarm Item
     String name;
@@ -36,6 +44,12 @@ public class CreateRepeatingAlarm extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_repeating_alarm);
+
+        // Radio Buttons information here
+        repeatTime = findViewById(R.id.repeat_time);
+        repeat_monthly = findViewById(R.id.radio_monthly);
+        repeat_yearly = findViewById(R.id.radio_yearly);
+        repeat_30 = findViewById(R.id.radio_30second);
 
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);//keep the keyboard hidden

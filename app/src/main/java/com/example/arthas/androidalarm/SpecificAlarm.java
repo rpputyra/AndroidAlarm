@@ -33,115 +33,21 @@ public class SpecificAlarm extends Alarm {
 
         timepoint.set(Calendar.YEAR, year);
         timepoint.set(Calendar.MONTH, month);
-        timepoint.set(Calendar.DAY_OF_MONTH, day -1);
+        timepoint.set(Calendar.DAY_OF_MONTH, day -1);//it was always ahead a day.
         timepoint.set(Calendar.HOUR, hour);
         timepoint.set(Calendar.MINUTE, minute);
         timepoint.set(Calendar.SECOND, second);
 
-
-/*
-        this.alarmYear = year;
-        if (month > 12) {
-            throw new IndexOutOfBoundsException("The number months exceeds the limit");
-        } else {
-            this.alarmMonth = month;
-        }
-        if (day > 31) {
-            throw new IndexOutOfBoundsException("The number days exceeds the limit");
-        } else {
-            this.alarmDay = day;
-        }
-        if (hour > 24) {
-            throw new IndexOutOfBoundsException("The number hours exceeds the limit");
-        } else {
-            this.alarmHour = hour;
-        }
-        if (minute > 60) {
-            throw new IndexOutOfBoundsException("The number minutes exceeds the limit");
-        } else {
-            this.alarmMinute = minute;
-        }
-        if (second > 60) {
-            throw new IndexOutOfBoundsException("The number second exceeds the limit");
-        } else {
-            this.alarmSecond = second;
-        }
-        /*
-        if (!validTimer()){
-            throw new Exception();
-        }
-*/
-    }
-
-    public void currentDate() {
-    //    timepoint.getYear();
-        getCurrentYear();
-  //      timepoint.getMonthValue();
-        getCurrentMonth();
-//        timepoint.getDayOfMonth();
-        getCurrentDay();
-
-       // timepoint.getHour();
-        getCurrentHour();
-        //timepoint.getMinute();
-        getCurrentMinute();
-        //timepoint.getSecond();
-        getCurrentSecond();
-    }
-
-    public int getCurrentYear() {
-        int year = timepoint.get(Calendar.YEAR);
-        currentYear = year;
-        return currentYear;
-    }
-
-    public int getCurrentMonth() {
-        int month = timepoint.get(Calendar.DAY_OF_MONTH);//I'm not sure if this is right but it was the closes to month I say.
-        currentMonth = month;
-        return month;
-    }
-
-    public int getCurrentDay() {
-        int day = timepoint.get(Calendar.DAY_OF_YEAR);
-        return day;
-    }
-
-    public int getCurrentHour() {
-        int hour = timepoint.get(Calendar.HOUR);
-        return hour;
-    }
-
-    public int getCurrentMinute() {
-        int minute = timepoint.get(Calendar.MINUTE);
-        return minute;
-    }
-
-    public int getCurrentSecond() {
-        int second = timepoint.get(Calendar.SECOND);
-        int milisecond = timepoint.get(Calendar.MILLISECONDS_IN_DAY);
-        return second;
     }
 
 
 
-    //Compare system time to alarm time, and if boolean value is true, alarm should enable
-    //Variable 'a' will be
-    public boolean compareToTime(SpecificAlarm alarm, SpecificAlarm current) {
-        if (alarm.alarmYear == current.currentYear && alarm.alarmMonth == current.currentMonth
-                && alarm.alarmDay == current.currentDay && alarm.alarmHour == current.currentHour
-                && alarm.alarmMinute == current.currentMinute
-                && alarm.alarmSecond == current.currentSecond) {
-            return true;
-        }
-        return false;
-    }
 
     @Override
     public String toString(){
-        //Log.i("Alarm", timepoint.getDateTimeFormat(, Calendar.AM_PM, Locale.US).toString() );
+
         SimpleDateFormat format = new SimpleDateFormat("EEEE, MMMM d, yyyy 'at' h:mm a");
-        return format.format(timepoint.getTime());
-        //return getAlarmName() + ": Date " + getDateTime() + " Time " + getAlarmTime();
+        return alarmName + ": " + format.format(timepoint.getTime());
     }
 }
 
