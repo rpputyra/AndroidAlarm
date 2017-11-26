@@ -1,22 +1,11 @@
 package com.example.arthas.androidalarm;
 
-/**
- * Created by Rob on 11/21/2017.
- */
-
-import java.io.File;
-import java.io.IOException;
-import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Date;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-
+        import java.io.File;
+        import java.io.IOException;
+        import java.sql.Time;
+        import java.time.LocalDate;
+        import java.time.LocalTime;
+        import java.util.Date;
 /**
  * @author I don't remember
  *
@@ -37,10 +26,10 @@ public class Alarm {
     int numSnoozes;
     boolean isSpecificAlarm;
 
-
+/*
     //Audio
     String soundFile = "LegitAlarmSound.wav";
-    Clip clip;
+    Clip clip;*/
 
 
     public Alarm() {
@@ -49,18 +38,21 @@ public class Alarm {
 
 
     //call when you need to play the alarm sound.
-    public void playSoundFile() {
+
+/*    public void playSoundFile() {
 
         if ( !playing ) {
 
             try {
 
                 File f = new File("./" + soundFile);
+
                 AudioInputStream audioIn = AudioSystem.getAudioInputStream(f.toURI().toURL());
-                clip = AudioSystem.getClip();
+                clip  AudioSystem.getClip();
                 clip.open(audioIn);
                 clip.loop( Clip.LOOP_CONTINUOUSLY );
                 playing = true;
+
 
             } catch ( LineUnavailableException e ) {
 
@@ -81,7 +73,7 @@ public class Alarm {
             }
         }
 
-    }
+    }*/
 
     public void setMessage(String message) {
         this.message = message;
@@ -101,7 +93,7 @@ public class Alarm {
         return alarmDate;
     }
 
-    public boolean validTimer() {
+    /*public boolean validTimer() {
 
         LocalDate LocalDateCreated = LocalDate.of(alarmYear, alarmMonth, alarmDay);
         LocalDate nowDate = LocalDate.now();
@@ -124,7 +116,6 @@ public class Alarm {
             return false;
         }
     }
-
     public boolean timeToRing() {
         if (alarmYear == LocalDate.now().getYear() &&
                 alarmMonth == LocalDate.now().getMonthValue() &&
@@ -137,11 +128,12 @@ public class Alarm {
         }
         else {return false;}
     }
-
+*/
 
     //call to dismiss alarm sound
     //(side note I tried using clip.isActive and it threw an error if clip hadn't been instantiated yet so I'm sticking with the bool for now)
-    public void dismiss() {
+
+  /* public void dismiss() {
 
 
         if ( playing) {
@@ -149,7 +141,7 @@ public class Alarm {
             playing = false;
         }
     }
-
+*/
     //Getters and Setters for Alarm name, Alarm name will show up in the JFrame
     public String getAlarmName() {
         return alarmName;
@@ -195,4 +187,3 @@ public class Alarm {
     }
 
 }
-

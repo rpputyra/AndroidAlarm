@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AndroidAlarm.iml" filepath="$PROJECT_DIR$/AndroidAlarm.iml" />
+      <module fileurl="file://C:\Users\Arthas\.gradle\AndroidAlarm\.idea\AndroidAlarm.iml" filepath="C:\Users\Arthas\.gradle\AndroidAlarm\.idea\AndroidAlarm.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
