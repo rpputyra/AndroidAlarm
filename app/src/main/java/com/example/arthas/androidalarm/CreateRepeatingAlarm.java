@@ -1,5 +1,8 @@
 package com.example.arthas.androidalarm;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +23,10 @@ import android.widget.TimePicker;
 
 //ToDo: Create Repeating alarm is currently a duplicate of Create Alarm It needs to be set up to create a repeating alarm
 public class CreateRepeatingAlarm extends AppCompatActivity {
+
+    public static final String EXTRA_MESSAGE = "CreateRepeatingAlarm.MESSAGE";
+    public static final String EXTRA_LOCATION = "CreateRepeatingAlarm.LOCATION";
+
     TimePicker time_picker;
     DatePicker date_picker;
     Button alarm_time_date;
@@ -46,10 +53,10 @@ public class CreateRepeatingAlarm extends AppCompatActivity {
         setContentView(R.layout.activity_create_repeating_alarm);
 
         // Radio Buttons information here
-        repeatTime = findViewById(R.id.repeat_time);
-        repeat_monthly = findViewById(R.id.radio_monthly);
-        repeat_yearly = findViewById(R.id.radio_yearly);
-        repeat_30 = findViewById(R.id.radio_30second);
+//        repeatTime = findViewById(R.id.repeat_time);
+//        repeat_monthly = findViewById(R.id.radio_monthly);
+//        repeat_yearly = findViewById(R.id.radio_yearly);
+//        repeat_30 = findViewById(R.id.radio_30second);
 
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);//keep the keyboard hidden
@@ -127,6 +134,22 @@ public class CreateRepeatingAlarm extends AppCompatActivity {
                 }
 
                 MainActivity.alarmArrayList.add(alarm);
+
+                AlarmManager manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                Intent alarmIntent;
+                PendingIntent pendingIntent;
+
+                alarmIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                alarmIntent.putExtra(EXTRA_MESSAGE, name);
+                alarmIntent.putExtra(EXTRA_LOCATION, "004444, 123123");
+                final int _id = (int) System.currentTimeMillis();
+                pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), _id, alarmIntent, 0);
+
+                manager.setExact(AlarmManager.RTC_WAKEUP
+                        , alarm.timepoint.getTimeInMillis()
+                        , pendingIntent);
+                System.out.println("Alarm created");
+
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
 
