@@ -1,6 +1,7 @@
 package com.example.arthas.androidalarm;
 
 
+import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.util.Log;
 
@@ -29,16 +30,16 @@ public class SpecificAlarm extends Alarm {
 
     public void setAlarm(int year, int month, int day, int hour, int minute, int second) throws Exception {
 
-        /*
+
         timepoint.set(Calendar.YEAR, year);
         timepoint.set(Calendar.MONTH, month);
-        timepoint.set(Calendar.DAY_OF_MONTH, day);
+        timepoint.set(Calendar.DAY_OF_MONTH, day -1);
         timepoint.set(Calendar.HOUR, hour);
         timepoint.set(Calendar.MINUTE, minute);
         timepoint.set(Calendar.SECOND, second);
-        */
 
 
+/*
         this.alarmYear = year;
         if (month > 12) {
             throw new IndexOutOfBoundsException("The number months exceeds the limit");
@@ -137,8 +138,10 @@ public class SpecificAlarm extends Alarm {
 
     @Override
     public String toString(){
-        //Log.i("Alarm", timepoint.getDateTimeFormat(Calendar.DATE, Calendar.AM_PM, Locale.US).toString() );
-        return getAlarmName() + ": Date " + getDateTime() + " Time " + getAlarmTime();
+        //Log.i("Alarm", timepoint.getDateTimeFormat(, Calendar.AM_PM, Locale.US).toString() );
+        SimpleDateFormat format = new SimpleDateFormat("EEEE, MMMM d, yyyy 'at' h:mm a");
+        return format.format(timepoint.getTime());
+        //return getAlarmName() + ": Date " + getDateTime() + " Time " + getAlarmTime();
     }
 }
 
