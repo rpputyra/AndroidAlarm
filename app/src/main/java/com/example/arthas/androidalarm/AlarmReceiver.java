@@ -43,6 +43,9 @@ public class AlarmReceiver extends BroadcastReceiver{
                 .setAutoCancel(true)
                 .setContentInfo("Info");
         System.out.println("notification created!");
-                notificationManager.notify(1, builder.build());
+
+        final int _id = (int) System.currentTimeMillis();
+
+                notificationManager.notify(_id, builder.build());
     }
 }

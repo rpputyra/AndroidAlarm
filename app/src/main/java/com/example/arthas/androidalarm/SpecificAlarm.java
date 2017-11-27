@@ -33,7 +33,7 @@ public class SpecificAlarm extends Alarm {
         timepoint.set(Calendar.YEAR, year);
         timepoint.set(Calendar.MONTH, month);
         timepoint.set(Calendar.DAY_OF_MONTH, day -1);//it was always ahead a day.
-        timepoint.set(Calendar.HOUR, hour);
+        timepoint.set(Calendar.HOUR, hour + 18);
         timepoint.set(Calendar.MINUTE, minute);
         timepoint.set(Calendar.SECOND, second);
         timepoint.setTimeZone(tz);
