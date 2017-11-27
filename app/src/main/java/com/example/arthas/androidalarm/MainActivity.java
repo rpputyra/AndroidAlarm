@@ -20,7 +20,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
 
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -40,6 +43,8 @@ import java.util.Locale;
  *      Link: https://github.com/googlesamples/android-play-location
  ***************************************************/
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -51,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private FusedLocationProviderClient mFusedLocationClient;
 
+
     /**
      * Represents a geographical location.
      */
@@ -61,6 +67,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView mLatitudeText;
     private TextView mLongitudeText;
 
+    //an array list of alarms to fill the list view
+    public static ArrayList<Alarm> alarmArrayList = new ArrayList<>();
+    private ListView alarm_list;
+    ArrayAdapter<Alarm> arrayAdapter;
+
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -69,17 +80,58 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Button fab = (Button) findViewById(R.id.button3);
-        fab.setOnClickListener(new View.OnClickListener() {
+
+        //These buttons are for switching activities.
+        Button new_alarm_btn = (Button) findViewById(R.id.new_alarm_btn);
+        new_alarm_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createAlarm();
+
+                //change activities
+                Intent intent = new Intent(getApplicationContext(), CreateAlarm.class);
+                startActivity(intent);
             }
         });
+
         mLatitudeLabel = getResources().getString(R.string.latitude_label);
         mLongitudeLabel = getResources().getString(R.string.longitude_label);
         mLatitudeText = (TextView) findViewById((R.id.latitude_text));
         mLongitudeText = (TextView) findViewById((R.id.longitude_text));
+
+
+        Button new_timer_btn = findViewById(R.id.new_repeating_btn);
+        new_timer_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //change activities
+                Intent intent = new Intent(getApplicationContext(), CreateRepeatingAlarm.class);
+                startActivity(intent);
+            }
+        });
+
+        Button new_location_btn = findViewById(R.id.new_location_btn);
+        new_location_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Need to make new Activity for this", Toast.LENGTH_LONG);
+            }
+        });
+
+        /*
+        The following is setting up the List View Using an array List Adapter
+        TODO: This is using an array list of alarms to set up the list view which seems to be wroking.
+         */
+        alarm_list = findViewById(R.id.alarm_listview);
+
+
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, alarmArrayList );//TODO: this should become a list of alarms
+
+        //set the adapter with the alarms as the adapter for the list view
+        alarm_list.setAdapter(arrayAdapter);
+
+
+
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
     }
@@ -167,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
                 new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                 REQUEST_PERMISSIONS_REQUEST_CODE);
     }
+
 
     private void requestPermissions() {
         boolean shouldProvideRationale =
