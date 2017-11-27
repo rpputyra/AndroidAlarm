@@ -11,21 +11,17 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.DatePicker;
+import android.widget.Chronometer;
 import android.widget.EditText;
-import android.widget.TimePicker;
-import android.widget.Toast;
 
 public class CreateAlarm extends AppCompatActivity {
 
-    TimePicker time_picker;
-    DatePicker date_picker;
-    Button alarm_time_date;
-    Button next; //next is used for switching from time to date
-    Button create_alarm;
+
+    Button start_timer;
+    Button home_button;
+    Chronometer timer;
 
     //Variables to be passed into a new alarm Item
-    String name;
     int hour;
     int minute;
     int day;
@@ -40,80 +36,25 @@ public class CreateAlarm extends AppCompatActivity {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);//keep the keyboard hidden
 
-        //The following is setting up buttons, and making the time and date picker show up.
-        time_picker = findViewById(R.id.time_picker);
-        time_picker.setVisibility(View.GONE);
-        date_picker = findViewById(R.id.date_picker);
-        date_picker.setVisibility(View.GONE);
-
-        final EditText alarm_name = findViewById(R.id.alarm_name);
-
-        //set up the button for time and date, I have the onclick listeners separate because it was faster at the time
-        alarm_time_date = findViewById(R.id.alarm_time_date);
-        alarm_time_date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                //the getWindow is to prevent the keyboard from popping up at bad times
-                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-                //I set all the buttons to invisible and the time picker and next button to visible so that it looks cleaner and is more functional
-                alarm_time_date.setVisibility(View.GONE);
-                time_picker.bringToFront();
-                date_picker.setVisibility(View.GONE);
-                time_picker.setVisibility(View.VISIBLE);
-                next.setVisibility(View.VISIBLE);
-                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-            }
-        });
-
-        //next button will only show up when the Time Picker is open its purpose is to change from the time picker to the date picker.
-        next = findViewById(R.id.time_okay);
-        next.setVisibility(View.GONE);
-        next.setOnClickListener(new View.OnClickListener(){
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View v){
-                //again the keyboard was annoying me so I just put this everywhere
-                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-                time_picker.bringToFront();
-                date_picker.setVisibility(View.VISIBLE);
-                time_picker.setVisibility(View.GONE);
-                next.setVisibility(View.GONE);
-                create_alarm.setVisibility(View.VISIBLE);
-                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
-                hour = time_picker.getHour();
-                minute = time_picker.getMinute();
-
-                Log.i("Time:Date",  hour + ":" + minute);
-            }
-        });
+        timer = findViewById(R.id.chronometer);
 
 
         //the create button should exit this Activity and create a new alarm.
-        create_alarm = findViewById(R.id.create_alarm);
-        create_alarm.setVisibility(View.GONE);
+        start_timer = findViewById(R.id.start_timer_btn);
 
-        create_alarm.setOnClickListener(new View.OnClickListener() {
+
+        start_timer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                name = alarm_name.getText().toString();
-                day = date_picker.getDayOfMonth();
-                month = date_picker.getMonth();
-                year = date_picker.getYear();
-                Log.i("Time:Date", month + "/" + day + "/" + year);
-                Log.i("Time:Date", name );
+                timer.start();
 
-                SpecificAlarm alarm = new SpecificAlarm();
-                alarm.setAlarmName(name);
-                try {
-                    TimeZone tz = TimeZone.getDefault();
-                    alarm.setAlarm(year, month, day, hour, minute, 0, tz);
-                } catch (Exception e) {
-                    Log.d("Error Creating Alarm", "onClick of Create Alarm Button");
-                }
-
-                MainActivity.alarmArrayList.add(alarm);
+            }
+        });
+        home_button = findViewById(R.id.back_btn);
+        home_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
 

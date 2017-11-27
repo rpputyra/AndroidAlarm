@@ -139,7 +139,7 @@ public class CreateRepeatingAlarm extends AppCompatActivity {
 
 
         //the create button should exit this Activity and create a new alarm.
-        create_alarm = findViewById(R.id.create_alarm);
+        create_alarm = findViewById(R.id.start_timer_btn);
         create_alarm.setVisibility(View.GONE);
 
         create_alarm.setOnClickListener(new View.OnClickListener() {

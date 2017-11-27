@@ -47,7 +47,7 @@
         android:layout_width="216dp"
         android:layout_height="41dp"
         android:text="@string/time_date_button"
-        app:layout_constraintBottom_toTopOf="@+id/create_alarm"
+        app:layout_constraintBottom_toTopOf="@+id/start_timer_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/alarm_name"
@@ -78,7 +78,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/create_alarm"
+        android:id="@+id/start_timer_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/create_button"

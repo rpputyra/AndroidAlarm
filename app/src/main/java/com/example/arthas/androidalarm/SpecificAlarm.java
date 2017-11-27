@@ -4,9 +4,6 @@ package com.example.arthas.androidalarm;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.icu.util.TimeZone;
-import android.util.Log;
-
-import java.util.Locale;
 
 
 /**
