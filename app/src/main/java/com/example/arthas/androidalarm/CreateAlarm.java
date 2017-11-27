@@ -2,6 +2,7 @@ package com.example.arthas.androidalarm;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.icu.util.TimeZone;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -106,7 +107,8 @@ public class CreateAlarm extends AppCompatActivity {
                 SpecificAlarm alarm = new SpecificAlarm();
                 alarm.setAlarmName(name);
                 try {
-                    alarm.setAlarm(year, month, day, hour, minute, 0);
+                    TimeZone tz = TimeZone.getDefault();
+                    alarm.setAlarm(year, month, day, hour, minute, 0, tz);
                 } catch (Exception e) {
                     Log.d("Error Creating Alarm", "onClick of Create Alarm Button");
                 }

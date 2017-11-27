@@ -3,9 +3,11 @@ package com.example.arthas.androidalarm;
 
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
+import android.icu.util.TimeZone;
 import android.util.Log;
 
 import java.util.Locale;
+
 
 /**
  * The alarm will compare values between current* and set*. The values of current* will be set by
@@ -28,7 +30,7 @@ public class SpecificAlarm extends Alarm {
 
     }
 
-    public void setAlarm(int year, int month, int day, int hour, int minute, int second) throws Exception {
+    public void setAlarm(int year, int month, int day, int hour, int minute, int second, TimeZone tz) throws Exception {
 
 
         timepoint.set(Calendar.YEAR, year);
@@ -37,6 +39,7 @@ public class SpecificAlarm extends Alarm {
         timepoint.set(Calendar.HOUR, hour);
         timepoint.set(Calendar.MINUTE, minute);
         timepoint.set(Calendar.SECOND, second);
+        timepoint.setTimeZone(tz);
 
     }
 

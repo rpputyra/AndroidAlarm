@@ -4,13 +4,11 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.icu.util.TimeZone;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -19,7 +17,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TimePicker;
+
+
 
 //ToDo: Create Repeating alarm is currently a duplicate of Create Alarm It needs to be set up to create a repeating alarm
 public class CreateRepeatingAlarm extends AppCompatActivity {
@@ -38,6 +39,7 @@ public class CreateRepeatingAlarm extends AppCompatActivity {
     RadioButton repeat_monthly;
     RadioButton repeat_yearly;
     RadioButton repeat_30;
+    Switch isRecursive;
 
     //Variables to be passed into a new alarm Item
     String name;
@@ -57,6 +59,32 @@ public class CreateRepeatingAlarm extends AppCompatActivity {
         repeat_monthly = findViewById(R.id.radio_monthly);
         repeat_yearly = findViewById(R.id.radio_yearly);
         repeat_30 = findViewById(R.id.radio_30second);
+        isRecursive = findViewById(R.id.recursive_switch);
+
+        //TimeZone Buttons and Variables
+        final TimeZone tz;
+        RadioButton central = findViewById(R.id.central_time);
+        RadioButton pacific = findViewById(R.id.pacific_time);
+        RadioButton eastern = findViewById(R.id.eastern_time);
+        RadioButton mountain = findViewById(R.id.mountain_time);
+
+        if (central.isChecked()){
+            tz = TimeZone.getTimeZone("Illinois/Chicago");
+        }
+        else if (pacific.isChecked()){
+            tz = TimeZone.getTimeZone("America/Los_Angeles");
+        }
+        else if(eastern.isChecked()){
+            tz = TimeZone.getTimeZone("New York/New York");
+        }
+        else if(mountain.isChecked()){
+            tz = TimeZone.getTimeZone("Arizona/Pheonix");
+        }
+        else{
+            tz = TimeZone.getTimeZone("Illinois/Chicago");
+        }
+
+
 
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);//keep the keyboard hidden
@@ -127,21 +155,19 @@ public class CreateRepeatingAlarm extends AppCompatActivity {
 
                 //This if Else checks which Radio button is checked.
                 //I'd imagine you can send whichever one is active back through the intent
-                if (repeat_yearly.isChecked())
-                {
-                    Log.i("Active", "Will Repeat Yearly");
+                if(isRecursive.isChecked()) {
+                    if (repeat_yearly.isChecked()) {
+                        Log.i("Active", "Will Repeat Yearly");
+                    } else if (repeat_monthly.isChecked()) {
+                        Log.i("Active", "Will Repeat Montyly");
+                    } else if (repeat_30.isChecked()) {
+                        Log.i("Active", "Will Repeat Every 30 Seconds");
+                    }
                 }
-                else if(repeat_monthly.isChecked()){
-                    Log.i("Active", "Will Repeat Montyly");
-                }
-                else if(repeat_30.isChecked()){
-                    Log.i("Active", "Will Repeat Every 30 Seconds");
-                }
-
                 SpecificAlarm alarm = new SpecificAlarm();
                 alarm.setAlarmName(name);
                 try {
-                    alarm.setAlarm(year, month, day, hour, minute, 0);
+                    alarm.setAlarm(year, month, day, hour, minute, 0, tz);
                 } catch (Exception e) {
                     Log.d("Error Creating Alarm", "onClick of Create Alarm Button");
                 }
@@ -158,24 +184,32 @@ public class CreateRepeatingAlarm extends AppCompatActivity {
                 final int _id = (int) System.currentTimeMillis();
                 pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), _id, alarmIntent, 0);
 
+
+                if(isRecursive.isChecked()) {
                 int interval = 6000;
-                if (repeat_yearly.isChecked())
-                {
-                    interval = (1000*60*60*24*365);
-                }
-                else if(repeat_monthly.isChecked()){
-                    interval = (1000*60*60*24*30);
-                }
-                else if(repeat_30.isChecked()){
-                    interval = 6000;
-                }
 
-                manager.setRepeating(AlarmManager.RTC_WAKEUP
-                        , alarm.timepoint.getTimeInMillis()
-                        ,interval
-                        , pendingIntent);
-                System.out.println("Alarm created");
-
+                    if (repeat_yearly.isChecked())
+                    {
+                        interval = (1000*60*60*24*365);
+                    }
+                    else if(repeat_monthly.isChecked()){
+                        interval = (1000*60*60*24*30);
+                    }
+                    else if(repeat_30.isChecked()){
+                        interval = 6000;
+                    }
+                    manager.setRepeating(AlarmManager.RTC_WAKEUP
+                            , alarm.timepoint.getTimeInMillis()
+                            , interval
+                            , pendingIntent);
+                    System.out.println("Alarm created");
+                }
+                else{
+                    manager.setExact(AlarmManager.RTC_WAKEUP
+                            , alarm.timepoint.getTimeInMillis()
+                            , pendingIntent);
+                    System.out.println("Alarm created");
+                }
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
 
