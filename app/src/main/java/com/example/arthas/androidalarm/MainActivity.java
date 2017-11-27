@@ -24,6 +24,15 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.Locale;
 
+//Code has been borrowed from the following source:
+/****************************************************
+ * Title: android-play-location
+ * Author: Shailn Tuli
+ * Date: 11/26/2017
+ * Version: Last commit on October 2
+ * Availability: GitHub
+ *      Link: https://github.com/googlesamples/android-play-location
+ ***************************************************/
 
 public class MainActivity extends AppCompatActivity {
 
