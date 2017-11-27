@@ -37,7 +37,7 @@ public class AlarmReceiver extends BroadcastReceiver{
         builder = builder
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setWhen(System.currentTimeMillis())
-                .setContentTitle("Location: " + location)
+                .setContentTitle("Location: " + MainActivity.Latitude + " , " + MainActivity.Longitude)
                 .setContentText(message)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setAutoCancel(true)
