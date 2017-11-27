@@ -52,11 +52,11 @@ public class CreateRepeatingAlarm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_repeating_alarm);
 
-        // Radio Buttons information here
-//        repeatTime = findViewById(R.id.repeat_time);
-//        repeat_monthly = findViewById(R.id.radio_monthly);
-//        repeat_yearly = findViewById(R.id.radio_yearly);
-//        repeat_30 = findViewById(R.id.radio_30second);
+//        Radio Buttons information here
+        repeatTime = findViewById(R.id.repeat_time);
+        repeat_monthly = findViewById(R.id.radio_monthly);
+        repeat_yearly = findViewById(R.id.radio_yearly);
+        repeat_30 = findViewById(R.id.radio_30second);
 
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);//keep the keyboard hidden
@@ -158,8 +158,21 @@ public class CreateRepeatingAlarm extends AppCompatActivity {
                 final int _id = (int) System.currentTimeMillis();
                 pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), _id, alarmIntent, 0);
 
-                manager.setExact(AlarmManager.RTC_WAKEUP
+                int interval = 6000;
+                if (repeat_yearly.isChecked())
+                {
+                    interval = (1000*60*60*24*365);
+                }
+                else if(repeat_monthly.isChecked()){
+                    interval = (1000*60*60*24*30);
+                }
+                else if(repeat_30.isChecked()){
+                    interval = 6000;
+                }
+
+                manager.setRepeating(AlarmManager.RTC_WAKEUP
                         , alarm.timepoint.getTimeInMillis()
+                        ,interval
                         , pendingIntent);
                 System.out.println("Alarm created");
 
