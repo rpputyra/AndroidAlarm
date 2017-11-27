@@ -1,5 +1,8 @@
 package com.example.arthas.androidalarm;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +23,10 @@ import android.widget.TimePicker;
 
 //ToDo: Create Repeating alarm is currently a duplicate of Create Alarm It needs to be set up to create a repeating alarm
 public class CreateRepeatingAlarm extends AppCompatActivity {
+
+    public static final String EXTRA_MESSAGE = "CreateRepeatingAlarm.MESSAGE";
+    public static final String EXTRA_LOCATION = "CreateRepeatingAlarm.LOCATION";
+
     TimePicker time_picker;
     DatePicker date_picker;
     Button alarm_time_date;
@@ -45,7 +52,7 @@ public class CreateRepeatingAlarm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_repeating_alarm);
 
-        // Radio Buttons information here
+//        Radio Buttons information here
         repeatTime = findViewById(R.id.repeat_time);
         repeat_monthly = findViewById(R.id.radio_monthly);
         repeat_yearly = findViewById(R.id.radio_yearly);
@@ -140,6 +147,35 @@ public class CreateRepeatingAlarm extends AppCompatActivity {
                 }
 
                 MainActivity.alarmArrayList.add(alarm);
+
+                AlarmManager manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                Intent alarmIntent;
+                PendingIntent pendingIntent;
+
+                alarmIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                alarmIntent.putExtra(EXTRA_MESSAGE, name);
+                alarmIntent.putExtra(EXTRA_LOCATION, "004444, 123123");
+                final int _id = (int) System.currentTimeMillis();
+                pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), _id, alarmIntent, 0);
+
+                int interval = 6000;
+                if (repeat_yearly.isChecked())
+                {
+                    interval = (1000*60*60*24*365);
+                }
+                else if(repeat_monthly.isChecked()){
+                    interval = (1000*60*60*24*30);
+                }
+                else if(repeat_30.isChecked()){
+                    interval = 6000;
+                }
+
+                manager.setRepeating(AlarmManager.RTC_WAKEUP
+                        , alarm.timepoint.getTimeInMillis()
+                        ,interval
+                        , pendingIntent);
+                System.out.println("Alarm created");
+
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
 

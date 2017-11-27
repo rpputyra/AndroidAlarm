@@ -26,6 +26,7 @@
             android:name=".CreateRepeatingAlarm"
             android:label="@string/title_activity_create_repeating_alarm"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <receiver android:name=".AlarmReceiver"/>
     </application>
 
 </manifest>
