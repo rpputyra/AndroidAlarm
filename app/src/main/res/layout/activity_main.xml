@@ -30,7 +30,7 @@
         android:layout_marginStart="1dp"
         android:layout_marginTop="12dp"
         android:layout_weight="1"
-        android:text="@string/new_timer"
+        android:text="@string/new_alarm"
         app:layout_constraintEnd_toStartOf="@+id/new_location_btn"
         app:layout_constraintStart_toEndOf="@+id/new_alarm_btn"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
@@ -42,7 +42,7 @@
         android:layout_marginStart="1dp"
         android:layout_marginTop="12dp"
         android:layout_weight="1"
-        android:text="@string/new_alarm"
+        android:text="@string/new_timer"
         app:layout_constraintEnd_toStartOf="@+id/new_repeating_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />

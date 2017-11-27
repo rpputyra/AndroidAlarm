@@ -76,19 +76,6 @@ public class MainActivity extends AppCompatActivity {
         TODO: This is using an array list of alarms to set up the list view which seems to be wroking.
          */
         alarm_list = findViewById(R.id.alarm_listview);
-/*
-        //TEST ALARM
-        SpecificAlarm alarm = new SpecificAlarm();
-        alarm.setAlarmName("New Years Alarm");
-        try {
-            alarm.setAlarm(2018, 1, 1, 0, 0, 0);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.i("Alarm", "Alarm Breaking on Creation");
-        }
-        Log.i("ALARM", alarm.toString());
-
-        alarmArrayList.add(alarm);//add the TEST alarm to the arraylist of alarms*/
 
 
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, alarmArrayList );//TODO: this should become a list of alarms
