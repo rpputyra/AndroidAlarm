@@ -24,7 +24,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private FusedLocationProviderClient mFusedLocationClient;
+//    private FusedLocationProviderClient mFusedLocationClient;
+    public static FusedLocationProviderClient mFusedLocationClient; // Making this public just for a sec. -Rob
 
     //an array list of alarms to fill the list view
     public static ArrayList<Alarm> alarmArrayList = new ArrayList<>();
@@ -120,11 +121,17 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Location location) {
                         // Got last known location. In some rare situations this can be null.
+                        Log.i("Active", String.valueOf(location.getLatitude()));
+                        Log.i("Active", String.valueOf(location.getLongitude()));
+                        System.out.println("What na");
                         if (location != null) {
                             //TODO: Logic to handle location object
+                            Log.i("Inactive", "DOesn't work.");
+                            System.out.println("What how");
                         }
                     }
                 });
+        mFusedLocationClient.getLastLocation();
     }
 
     @Override

@@ -1,14 +1,18 @@
 package com.example.arthas.androidalarm;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -52,6 +56,21 @@ public class CreateRepeatingAlarm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_repeating_alarm);
 
+//        //Sorry this is a mess -Rob
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return;
+//        }
+//        Log.i("loc", String.valueOf(MainActivity.mFusedLocationClient.getLastLocation()));
+        System.out.println("I'm here!");
+
+
 //        Radio Buttons information here
         repeatTime = findViewById(R.id.repeat_time);
         repeat_monthly = findViewById(R.id.radio_monthly);
@@ -73,7 +92,7 @@ public class CreateRepeatingAlarm extends AppCompatActivity {
         alarm_time_date = findViewById(R.id.alarm_time_date);
         alarm_time_date.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 //the getWindow is to prevent the keyboard from popping up at bad times
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
                 //I set all the buttons to invisible and the time picker and next button to visible so that it looks cleaner and is more functional
@@ -89,10 +108,10 @@ public class CreateRepeatingAlarm extends AppCompatActivity {
         //next button will only show up when the Time Picker is open its purpose is to change from the time picker to the date picker.
         next = findViewById(R.id.time_okay);
         next.setVisibility(View.GONE);
-        next.setOnClickListener(new View.OnClickListener(){
+        next.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 //again the keyboard was annoying me so I just put this everywhere
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
                 time_picker.bringToFront();
@@ -105,7 +124,7 @@ public class CreateRepeatingAlarm extends AppCompatActivity {
                 hour = time_picker.getHour();
                 minute = time_picker.getMinute();
 
-                Log.i("Time:Date",  hour + ":" + minute);
+                Log.i("Time:Date", hour + ":" + minute);
             }
         });
 
@@ -123,18 +142,15 @@ public class CreateRepeatingAlarm extends AppCompatActivity {
                 month = date_picker.getMonth();
                 year = date_picker.getYear();
                 Log.i("Time:Date", month + "/" + day + "/" + year);
-                Log.i("Time:Date", name );
+                Log.i("Time:Date", name);
 
                 //This if Else checks which Radio button is checked.
                 //I'd imagine you can send whichever one is active back through the intent
-                if (repeat_yearly.isChecked())
-                {
+                if (repeat_yearly.isChecked()) {
                     Log.i("Active", "Will Repeat Yearly");
-                }
-                else if(repeat_monthly.isChecked()){
+                } else if (repeat_monthly.isChecked()) {
                     Log.i("Active", "Will Repeat Montyly");
-                }
-                else if(repeat_30.isChecked()){
+                } else if (repeat_30.isChecked()) {
                     Log.i("Active", "Will Repeat Every 30 Seconds");
                 }
 
@@ -148,7 +164,7 @@ public class CreateRepeatingAlarm extends AppCompatActivity {
 
                 MainActivity.alarmArrayList.add(alarm);
 
-                AlarmManager manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                 Intent alarmIntent;
                 PendingIntent pendingIntent;
 
@@ -159,22 +175,37 @@ public class CreateRepeatingAlarm extends AppCompatActivity {
                 pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), _id, alarmIntent, 0);
 
                 int interval = 6000;
-                if (repeat_yearly.isChecked())
-                {
-                    interval = (1000*60*60*24*365);
-                }
-                else if(repeat_monthly.isChecked()){
-                    interval = (1000*60*60*24*30);
-                }
-                else if(repeat_30.isChecked()){
+                if (repeat_yearly.isChecked()) {
+                    interval = (1000 * 60 * 60 * 24 * 365);
+                } else if (repeat_monthly.isChecked()) {
+                    interval = (1000 * 60 * 60 * 24 * 30);
+                } else if (repeat_30.isChecked()) {
                     interval = 6000;
                 }
 
                 manager.setRepeating(AlarmManager.RTC_WAKEUP
                         , alarm.timepoint.getTimeInMillis()
-                        ,interval
+                        , interval
                         , pendingIntent);
                 System.out.println("Alarm created");
+
+
+
+
+                //Testing Location
+//                Intent locIntent = new Intent("com.myapp.swarm.LOCATION_READY");
+//                PendingIntent locPendingIntent = PendingIntent.getBroadcast(getApplicationContext(),
+//                        0, locIntent, 0);
+//
+//                //Register for broadcast intents
+//                LocationManager lm;
+//                lm.
+//                int minTime = 5000;
+//                int minDistance = 0;
+//                lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, minTime,
+//                        minDistance, locPendingIntent);
+
+
 
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
