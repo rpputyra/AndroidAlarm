@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:addStatesFromChildren="true"
+    tools:context="com.example.arthas.androidalarm.CreateAlarm">
+
+    <EditText
+        android:id="@+id/alarm_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/alarm_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TimePicker
+        android:id="@+id/time_picker"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <DatePicker
+        android:id="@+id/date_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="18dp"
+        android:layout_marginStart="18dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/alarm_time_date"
+        android:layout_width="216dp"
+        android:layout_height="41dp"
+        android:text="@string/time_date_button"
+        app:layout_constraintBottom_toTopOf="@+id/start_timer_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alarm_name"
+        app:layout_constraintVertical_bias="0.141" />
+
+    <Button
+        android:id="@+id/time_okay"
+        android:layout_width="wrap_content"
+        android:layout_height="47dp"
+        android:text="@string/next_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alarm_time_date"
+        app:layout_constraintVertical_bias="0.947" />
+
+    <Switch
+        android:id="@+id/recursive_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="286dp"
+        android:layout_marginStart="20dp"
+        android:text="Recursive Alarm"
+        app:layout_constraintBottom_toTopOf="@+id/repeat_time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/start_timer_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.53"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.965" />
+
+    <RadioGroup
+        android:id="@+id/repeat_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:checkedButton="@+id/radio_yearly"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.585">
+
+        <RadioButton
+            android:id="@+id/radio_yearly"
+            android:layout_width="112dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="297dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="0dp"
+            android:text="Yearly"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.415" />
+
+        <RadioButton
+            android:id="@+id/radio_monthly"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginEnd="190dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="0dp"
+            android:text="Monthly"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/radio_yearly"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.418" />
+
+        <RadioButton
+            android:id="@+id/radio_30second"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="63dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="0dp"
+            android:text="30 Seconds"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/radio_monthly"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.403" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/time_zones"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:checkedButton="@+id/central_time"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.911"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.545">
+
+        <RadioButton
+            android:id="@+id/central_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Central Time"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="350dp" />
+
+        <RadioButton
+            android:id="@+id/mountain_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mountain Time"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="382dp" />
+
+        <RadioButton
+            android:id="@+id/eastern_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Eastern Time"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="416dp" />
+
+        <RadioButton
+            android:id="@+id/pacific_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pacific Time"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="449dp" />
+    </RadioGroup>
+
+</android.support.constraint.ConstraintLayout>
