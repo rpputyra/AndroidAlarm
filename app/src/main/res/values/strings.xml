@@ -10,5 +10,7 @@
     <string name="new_timer">+ Timer</string>
     <string name="new_location_alarm">+ Location Alarm</string>
     <string name="title_activity_create_repeating_alarm">create_repeating_alarm</string>
+    <string name="title_activity_location_alarm">LocationAlarm</string>
+    <string name="title_activity_create_location_alarm">CreateLocationAlarm</string>
 
 </resources>

@@ -77,7 +77,9 @@ public class MainActivity extends AppCompatActivity {
         new_location_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Need to make new Activity for this", Toast.LENGTH_LONG);
+
+                Intent intent = new Intent(getApplicationContext(), CreateLocationAlarm.class);
+                startActivity(intent);
             }
         });
 
