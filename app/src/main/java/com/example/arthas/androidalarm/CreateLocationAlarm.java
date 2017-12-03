@@ -73,6 +73,8 @@ public class CreateLocationAlarm extends AppCompatActivity {
                         , pendingIntent);
                 Toast.makeText(getApplicationContext(), "Timer Has Been Started", Toast.LENGTH_LONG).show();
 
+
+
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             }
