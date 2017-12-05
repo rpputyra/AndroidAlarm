@@ -34,7 +34,6 @@ public class CreateLocationAlarm extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_create_location_alarm);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);//keep the keyboard hidden
@@ -50,19 +49,28 @@ public class CreateLocationAlarm extends AppCompatActivity {
         start_timer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("Location", edit_minute.getText().toString());
-                minute = Integer.parseInt(edit_minute.getText().toString());
 
-                Log.i("Timer", ":" + minute);
+                try {
 
-                long milliseconds = minute * 60 * 1000;
+                    minute = Integer.parseInt(edit_minute.getText().toString());
 
-                Log.i("Timer", milliseconds + "");
+                }catch (NullPointerException exception){
 
-                AlarmManager manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-                Intent alarmIntent;
-                PendingIntent pendingIntent;
+                    Log.i("Timer", ":" + minute);
 
+                    long milliseconds = minute * 60 * 1000;
+
+                    Log.i("Timer", milliseconds + "");
+
+                    AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                    Intent alarmIntent;
+                    PendingIntent pendingIntent;
+
+                    alarmIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                    alarmIntent.putExtra(EXTRA_MESSAGE, name.getText().toString());
+                    alarmIntent.putExtra(EXTRA_LOCATION, "004444, 123123");
+                    final int _id = (int) System.currentTimeMillis();
+                    pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), _id, alarmIntent, 0);
                 alarmIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
                 alarmIntent.putExtra(EXTRA_MESSAGE, name.getText().toString());
                 alarmIntent.putExtra(EXTRA_LOCATION, "004444, 123123");
@@ -70,18 +78,17 @@ public class CreateLocationAlarm extends AppCompatActivity {
                 final int _id = (int) System.currentTimeMillis();
                 pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), _id, alarmIntent, 0);
 
-                manager.setExact(AlarmManager.RTC_WAKEUP
-                        , System.currentTimeMillis()+ milliseconds
-                        , pendingIntent);
-                Toast.makeText(getApplicationContext(), "Timer Has Been Started", Toast.LENGTH_LONG).show();
+                    manager.setExact(AlarmManager.RTC_WAKEUP
+                            , System.currentTimeMillis() + milliseconds
+                            , pendingIntent);
+                    Toast.makeText(getApplicationContext(), "Timer Has Been Started", Toast.LENGTH_LONG).show();
 
 
-
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                }
             }
         });
-
 
     }
 

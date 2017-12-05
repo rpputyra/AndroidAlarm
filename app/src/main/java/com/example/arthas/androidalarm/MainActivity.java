@@ -4,14 +4,20 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+
+import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -19,9 +25,24 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+
+import java.util.Locale;
+
+//Code that has been used to enable location services has been borrowed from the following source:
+/****************************************************
+ * Title: android-play-location
+ * Author: Shailn Tuli
+ * Date: 11/26/2017
+ * Version: Last commit on October 2
+ * Availability: GitHub
+ *      Link: https://github.com/googlesamples/android-play-location
+ ***************************************************/
+
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
@@ -34,18 +55,36 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_DATA = "LocationAlarm.DATA";
 
     //    private FusedLocationProviderClient mFusedLocationClient;
-    public static FusedLocationProviderClient mFusedLocationClient; // Making this public just for a sec. -Rob
+
     private static final String TAG = MainActivity.class.getSimpleName();
+
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
 
+    /**
+     * Provides the entry point to the Fused Location Provider API.
+     */
+    private FusedLocationProviderClient mFusedLocationClient;
+
+
+    /**
+     * Represents a geographical location.
+     */
+    protected Location mLastLocation;
+
+    private String mLatitudeLabel;
+    private String mLongitudeLabel;
+    private TextView mLatitudeText;
+    private TextView mLongitudeText;
     public static double Latitude;
     public static double Longitude;
     protected Location myLocation;
+
 
     //an array list of alarms to fill the list view
     public static ArrayList<Alarm> alarmArrayList = new ArrayList<>();
     private ListView alarm_list;
     ArrayAdapter<Alarm> arrayAdapter;
+
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -66,6 +105,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        mLatitudeLabel = getResources().getString(R.string.latitude_label);
+        mLongitudeLabel = getResources().getString(R.string.longitude_label);
+        mLatitudeText = (TextView) findViewById((R.id.latitude_text));
+        mLongitudeText = (TextView) findViewById((R.id.longitude_text));
+
 
         Button new_timer_btn = findViewById(R.id.new_repeating_btn);
         new_timer_btn.setOnClickListener(new View.OnClickListener() {
@@ -154,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
     /**
      * Provides a simple way of getting a device's location and is well suited for
      * applications that do not require a fine-grained location and that do not need location
@@ -186,21 +232,22 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             Log.w(TAG, "getLastLocation:exception", task.getException());
                             showSnackbar("No location detected. Make sure location is enabled on the device.");
+
                         }
                     }
                 });
     }
 
     /**
-     * Location change algorith found here:
+     * Location change algorithm found here:
      * https://stackoverflow.com/questions/18170131/comparing-two-locations-using-their-longitude-and-latitude
      */
     private void onLocationChanged(Location location){
         double lat2 = location.getLatitude();
         double lng2 = location.getLongitude();
 
-        if (distance(Latitude, Longitude, lat2, lng2) < 0.002){
-            // if distance < 10.56 feet, both locations will be considered equal
+        if (distance(Latitude, Longitude, lat2, lng2) < 0.001){
+            // if distance < 6 feet, both locations will be considered equal
 
             //sound alarm here
         }
@@ -296,6 +343,7 @@ public class MainActivity extends AppCompatActivity {
             // previously and checked "Never ask again".
             startLocationPermissionRequest();
         }
+
     }
 
     /**
@@ -346,25 +394,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    //Class for switching between activities
+    public void createAlarm(){
+        Intent intent = new Intent(this, CreateAlarm.class);
+        startActivity(intent);
     }
 }
+
