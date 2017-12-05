@@ -50,9 +50,11 @@ public class CreateLocationAlarm extends AppCompatActivity {
         start_timer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
 
+                try {
                     minute = Integer.parseInt(edit_minute.getText().toString());
+                }catch (NullPointerException exception){
+                    System.out.println("Null Pointer Exception found");
 
                     Log.i("Timer", ":" + minute);
 
@@ -65,7 +67,6 @@ public class CreateLocationAlarm extends AppCompatActivity {
                     PendingIntent pendingIntent;
 
                     alarmIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
-                    alarmIntent.putExtra(EXTRA_MESSAGE, name.getText().toString());
                     alarmIntent.putExtra(EXTRA_LOCATION, "004444, 123123");
                     final int _id = (int) System.currentTimeMillis();
                     pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), _id, alarmIntent, 0);
@@ -78,8 +79,6 @@ public class CreateLocationAlarm extends AppCompatActivity {
 
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
-                }catch (NullPointerException exception){
-                    System.out.println("Null Pointer Exception found");
                 }
             }
         });
