@@ -58,6 +58,11 @@ import java.util.ArrayList;
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final String EXTRA_MESSAGE = "CreateRepeatingAlarm.MESSAGE";
+    public static final String EXTRA_LOCATION = "CreateRepeatingAlarm.LOCATION";
+    public static final String EXTRA_DATA = "LocationAlarm.DATA";
+
     //    private FusedLocationProviderClient mFusedLocationClient;
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -206,8 +211,7 @@ public class MainActivity extends AppCompatActivity {
         //This method will give the last retrieved location. We are retrieving FINE_LOCATION as
         //indicated in the AndroidManifest.xml
         //-Max
-        mFusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+        mFusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
                         // Got last known location. In some rare situations this can be null.

@@ -6,9 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,9 +15,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import static com.example.arthas.androidalarm.CreateRepeatingAlarm.EXTRA_LOCATION;
-import static com.example.arthas.androidalarm.CreateRepeatingAlarm.EXTRA_MESSAGE;
 
+import static com.example.arthas.androidalarm.MainActivity.EXTRA_DATA;
+import static com.example.arthas.androidalarm.MainActivity.EXTRA_LOCATION;
+import static com.example.arthas.androidalarm.MainActivity.EXTRA_MESSAGE;
 
 
 public class CreateLocationAlarm extends AppCompatActivity {
@@ -35,6 +34,7 @@ public class CreateLocationAlarm extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_create_location_alarm);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);//keep the keyboard hidden
@@ -50,6 +50,10 @@ public class CreateLocationAlarm extends AppCompatActivity {
         start_timer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Log.i("Location", edit_minute.getText().toString());
+                minute = Integer.parseInt(edit_minute.getText().toString());
+
 
                     minute = Integer.parseInt(edit_minute.getText().toString());
 
