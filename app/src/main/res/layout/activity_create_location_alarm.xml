@@ -8,7 +8,7 @@
     tools:context="com.example.arthas.androidalarm.CreateLocationAlarm">
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/editminute"
         android:layout_width="63dp"
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
@@ -46,7 +46,7 @@
         android:layout_marginTop="8dp"
         android:text="How many minutes?"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        app:layout_constraintBottom_toTopOf="@+id/editText"
+        app:layout_constraintBottom_toTopOf="@+id/editminute"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"

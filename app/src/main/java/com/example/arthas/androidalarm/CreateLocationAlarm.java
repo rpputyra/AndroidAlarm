@@ -6,9 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -52,6 +50,7 @@ public class CreateLocationAlarm extends AppCompatActivity {
         start_timer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("Location", edit_minute.getText().toString());
                 minute = Integer.parseInt(edit_minute.getText().toString());
 
                 Log.i("Timer", ":" + minute);
@@ -67,7 +66,7 @@ public class CreateLocationAlarm extends AppCompatActivity {
                 alarmIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
                 alarmIntent.putExtra(EXTRA_MESSAGE, name.getText().toString());
                 alarmIntent.putExtra(EXTRA_LOCATION, "004444, 123123");
-                alarmIntent.putExtra(EXTRA_DATA, true);
+                alarmIntent.putExtra(EXTRA_DATA, "true");
                 final int _id = (int) System.currentTimeMillis();
                 pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), _id, alarmIntent, 0);
 

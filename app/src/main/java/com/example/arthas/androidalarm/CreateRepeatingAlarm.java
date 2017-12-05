@@ -20,6 +20,7 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TimePicker;
 
+import static com.example.arthas.androidalarm.MainActivity.EXTRA_DATA;
 import static com.example.arthas.androidalarm.MainActivity.EXTRA_LOCATION;
 import static com.example.arthas.androidalarm.MainActivity.EXTRA_MESSAGE;
 
@@ -181,6 +182,7 @@ public class CreateRepeatingAlarm extends AppCompatActivity {
                 alarmIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
                 alarmIntent.putExtra(EXTRA_MESSAGE, name);
                 alarmIntent.putExtra(EXTRA_LOCATION, "004444, 123123");
+                alarmIntent.putExtra(EXTRA_DATA, "false");
                 final int _id = (int) System.currentTimeMillis();
                 pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), _id, alarmIntent, 0);
 

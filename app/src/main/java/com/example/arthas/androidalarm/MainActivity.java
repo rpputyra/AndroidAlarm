@@ -120,8 +120,7 @@ public class MainActivity extends AppCompatActivity {
         //This method will give the last retrieved location. We are retrieving FINE_LOCATION as
         //indicated in the AndroidManifest.xml
         //-Max
-        mFusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+        mFusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
                         // Got last known location. In some rare situations this can be null.
