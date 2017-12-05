@@ -20,13 +20,13 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TimePicker;
 
+import static com.example.arthas.androidalarm.MainActivity.EXTRA_LOCATION;
+import static com.example.arthas.androidalarm.MainActivity.EXTRA_MESSAGE;
 
 
 //ToDo: Create Repeating alarm is currently a duplicate of Create Alarm It needs to be set up to create a repeating alarm
 public class CreateRepeatingAlarm extends AppCompatActivity {
 
-    public static final String EXTRA_MESSAGE = "CreateRepeatingAlarm.MESSAGE";
-    public static final String EXTRA_LOCATION = "CreateRepeatingAlarm.LOCATION";
 
     TimePicker time_picker;
     DatePicker date_picker;

@@ -17,9 +17,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import static com.example.arthas.androidalarm.CreateRepeatingAlarm.EXTRA_LOCATION;
-import static com.example.arthas.androidalarm.CreateRepeatingAlarm.EXTRA_MESSAGE;
 
+import static com.example.arthas.androidalarm.MainActivity.EXTRA_DATA;
+import static com.example.arthas.androidalarm.MainActivity.EXTRA_LOCATION;
+import static com.example.arthas.androidalarm.MainActivity.EXTRA_MESSAGE;
 
 
 public class CreateLocationAlarm extends AppCompatActivity {
@@ -35,6 +36,7 @@ public class CreateLocationAlarm extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_create_location_alarm);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);//keep the keyboard hidden
@@ -65,6 +67,7 @@ public class CreateLocationAlarm extends AppCompatActivity {
                 alarmIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
                 alarmIntent.putExtra(EXTRA_MESSAGE, name.getText().toString());
                 alarmIntent.putExtra(EXTRA_LOCATION, "004444, 123123");
+                alarmIntent.putExtra(EXTRA_DATA, true);
                 final int _id = (int) System.currentTimeMillis();
                 pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), _id, alarmIntent, 0);
 

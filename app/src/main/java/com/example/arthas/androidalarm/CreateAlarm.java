@@ -18,11 +18,10 @@ import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import static com.example.arthas.androidalarm.CreateRepeatingAlarm.EXTRA_LOCATION;
-import static com.example.arthas.androidalarm.CreateRepeatingAlarm.EXTRA_MESSAGE;
+import static com.example.arthas.androidalarm.MainActivity.EXTRA_LOCATION;
+import static com.example.arthas.androidalarm.MainActivity.EXTRA_MESSAGE;
 
 public class CreateAlarm extends AppCompatActivity {
-
 
     Button start_timer;
     Button home_button;
@@ -80,6 +79,7 @@ public class CreateAlarm extends AppCompatActivity {
                 alarmIntent.putExtra(EXTRA_MESSAGE, name.getText().toString());
                 alarmIntent.putExtra(EXTRA_LOCATION, "004444, 123123");
                 final int _id = (int) System.currentTimeMillis();
+
                 pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), _id, alarmIntent, 0);
 
                 manager.setExact(AlarmManager.RTC_WAKEUP

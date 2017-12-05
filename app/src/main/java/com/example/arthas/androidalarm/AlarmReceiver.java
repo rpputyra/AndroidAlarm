@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import android.widget.Toast;
 
 /**
  * Created by Rob on 11/22/2017.
@@ -17,8 +18,11 @@ public class AlarmReceiver extends BroadcastReceiver{
     public void onReceive(Context context, Intent intent) {
 
 
-        String message = intent.getStringExtra(CreateRepeatingAlarm.EXTRA_MESSAGE);
-        String location = intent.getStringExtra(CreateRepeatingAlarm.EXTRA_LOCATION);
+        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String location = intent.getStringExtra(MainActivity.EXTRA_LOCATION);
+        String isLocation = intent.getStringExtra(MainActivity.EXTRA_DATA);
+
+
 
 
 

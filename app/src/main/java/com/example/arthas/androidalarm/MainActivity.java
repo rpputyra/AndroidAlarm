@@ -28,6 +28,11 @@ import com.google.android.gms.tasks.Task;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final String EXTRA_MESSAGE = "CreateRepeatingAlarm.MESSAGE";
+    public static final String EXTRA_LOCATION = "CreateRepeatingAlarm.LOCATION";
+    public static final String EXTRA_DATA = "LocationAlarm.DATA";
+
     //    private FusedLocationProviderClient mFusedLocationClient;
     public static FusedLocationProviderClient mFusedLocationClient; // Making this public just for a sec. -Rob
     private static final String TAG = MainActivity.class.getSimpleName();
