@@ -41,7 +41,7 @@ public class CreateLocationAlarm extends AppCompatActivity {
 
         name = findViewById(R.id.message_timer);
 
-        edit_minute = findViewById(R.id.edit_minutes);
+        edit_minute = findViewById(R.id.editminute);
 
         //the create button should exit this Activity and create a new alarm.
         start_timer = findViewById(R.id.start_timer_btn);
@@ -50,33 +50,22 @@ public class CreateLocationAlarm extends AppCompatActivity {
         start_timer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Log.i("Location", edit_minute.getText().toString());
                 minute = Integer.parseInt(edit_minute.getText().toString());
+                Log.i("Timer", ":" + minute);
+                long milliseconds = minute * 60 * 1000;
+                Log.i("Timer", milliseconds + "");
 
+                AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                Intent alarmIntent;
+                PendingIntent pendingIntent;
 
-                    minute = Integer.parseInt(edit_minute.getText().toString());
-
-                    Log.i("Timer", ":" + minute);
-
-                    long milliseconds = minute * 60 * 1000;
-
-                    Log.i("Timer", milliseconds + "");
-
-                    AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                    Intent alarmIntent;
-                    PendingIntent pendingIntent;
-
-                    alarmIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
-                    alarmIntent.putExtra(EXTRA_MESSAGE, name.getText().toString());
-                    alarmIntent.putExtra(EXTRA_LOCATION, "004444, 123123");
-                    final int _id = (int) System.currentTimeMillis();
-                    pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), _id, alarmIntent, 0);
-
-                    manager.setExact(AlarmManager.RTC_WAKEUP
-                            , System.currentTimeMillis() + milliseconds
-                            , pendingIntent);
-                    Toast.makeText(getApplicationContext(), "Timer Has Been Started", Toast.LENGTH_LONG).show();
+                alarmIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                alarmIntent.putExtra(EXTRA_MESSAGE, edit_minute.getText().toString());
+                alarmIntent.putExtra(EXTRA_LOCATION, "004444, 123123");
+                alarmIntent.putExtra(EXTRA_DATA, "true");
+                final int _id = (int) System.currentTimeMillis();
+                pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), _id, alarmIntent, 0);
 
 
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
