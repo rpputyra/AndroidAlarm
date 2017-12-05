@@ -82,6 +82,7 @@ public class CreateAlarm extends AppCompatActivity {
                 final int _id = (int) System.currentTimeMillis();
                 pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), _id, alarmIntent, 0);
 
+                Log.i("What", "are you working");
                 manager.setExact(AlarmManager.RTC_WAKEUP
                         , System.currentTimeMillis()+ milliseconds
                         , pendingIntent);
@@ -93,6 +94,7 @@ public class CreateAlarm extends AppCompatActivity {
                 timer.setCountDown(true);
                 timer.setBase(hour * 3600 *1000 + minute * 60 * 1000 + second * 1000 );
                 timer.start();*/
+
 
             }
         });
