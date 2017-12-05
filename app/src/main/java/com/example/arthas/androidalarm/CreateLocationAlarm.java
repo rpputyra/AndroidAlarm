@@ -51,11 +51,7 @@ public class CreateLocationAlarm extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                try {
-
                     minute = Integer.parseInt(edit_minute.getText().toString());
-
-                }catch (NullPointerException exception){
 
                     Log.i("Timer", ":" + minute);
 
@@ -81,7 +77,6 @@ public class CreateLocationAlarm extends AppCompatActivity {
 
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
-                }
             }
         });
 

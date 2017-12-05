@@ -7,6 +7,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.os.Looper;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -27,7 +28,13 @@ import android.widget.Toast;
 
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -47,6 +54,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
+
+import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 
 public class MainActivity extends AppCompatActivity {
     //    private FusedLocationProviderClient mFusedLocationClient;
@@ -73,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
     public static double Latitude;
     public static double Longitude;
     protected Location myLocation;
+    private LocationRequest mLocationRequest;
+
+    private long UPDATE_INTERVAL = 10 * 1000;  /* 10 secs */
+    private long FASTEST_INTERVAL = 2000; /* 2 sec */
 
 
     //an array list of alarms to fill the list view
@@ -81,12 +94,46 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<Alarm> arrayAdapter;
 
 
+    // Trigger new location updates at interval
+    protected void startLocationUpdates() {
+
+        // Create the location request to start receiving updates
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(UPDATE_INTERVAL);
+        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+
+        // Create LocationSettingsRequest object using location request
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+        builder.addLocationRequest(mLocationRequest);
+        LocationSettingsRequest locationSettingsRequest = builder.build();
+
+        // Check whether location settings are satisfied
+        // https://developers.google.com/android/reference/com/google/android/gms/location/SettingsClient
+        SettingsClient settingsClient = LocationServices.getSettingsClient(this);
+        settingsClient.checkLocationSettings(locationSettingsRequest);
+
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            getFusedLocationProviderClient(this).requestLocationUpdates(mLocationRequest, new LocationCallback() {
+                        @Override
+                        public void onLocationResult(LocationResult locationResult) {
+                            onLocationChanged(locationResult.getLastLocation());
+                        }
+                    },
+                    Looper.myLooper());
+        }
+        return;
+    }
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_main);
+        startLocationUpdates();
 
 
         //These buttons are for switching activities.
@@ -135,14 +182,13 @@ public class MainActivity extends AppCompatActivity {
         alarm_list = findViewById(R.id.alarm_listview);
 
 
-        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, alarmArrayList );//TODO: this should become a list of alarms
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, alarmArrayList);//TODO: this should become a list of alarms
 
         //set the adapter with the alarms as the adapter for the list view
         alarm_list.setAdapter(arrayAdapter);
 
 
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mFusedLocationClient = getFusedLocationProviderClient(this);
 
         //This is pending further handling
         //-Max
@@ -176,6 +222,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
+
 
     /**
      IMPLEMENTED FROM googlesamples
@@ -239,13 +286,21 @@ public class MainActivity extends AppCompatActivity {
      * https://stackoverflow.com/questions/18170131/comparing-two-locations-using-their-longitude-and-latitude
      */
     private void onLocationChanged(Location location){
+        // New location has now been determined
+        String msg = "Updated Location: " +
+                Double.toString(location.getLatitude()) + "," +
+                Double.toString(location.getLongitude());
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        // You can now create a LatLng Object for use with maps
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+
         double lat2 = location.getLatitude();
         double lng2 = location.getLongitude();
 
         if (distance(Latitude, Longitude, lat2, lng2) < 0.001){
             // if distance < 6 feet, both locations will be considered equal
 
-            //sound alarm here
+
         }
     }
 
