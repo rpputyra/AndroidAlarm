@@ -3,6 +3,9 @@
     package="com.example.arthas.androidalarm">
 
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -26,8 +29,14 @@
         <activity
             android:name=".CreateRepeatingAlarm"
             android:label="@string/title_activity_create_repeating_alarm"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <receiver android:name=".AlarmReceiver" />
+
+        <activity
+            android:name=".CreateLocationAlarm"
+            android:label="@string/title_activity_create_location_alarm"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <receiver android:name=".AlarmReceiver"/>
     </application>
 
 </manifest>

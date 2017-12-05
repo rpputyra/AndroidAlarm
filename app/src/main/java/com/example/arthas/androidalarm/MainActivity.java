@@ -43,9 +43,13 @@ import java.util.Locale;
  *      Link: https://github.com/googlesamples/android-play-location
  ***************************************************/
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    //    private FusedLocationProviderClient mFusedLocationClient;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -66,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
     private String mLongitudeLabel;
     private TextView mLatitudeText;
     private TextView mLongitudeText;
+    public static double Latitude;
+    public static double Longitude;
+    protected Location myLocation;
+
 
     //an array list of alarms to fill the list view
     public static ArrayList<Alarm> alarmArrayList = new ArrayList<>();
@@ -114,7 +122,9 @@ public class MainActivity extends AppCompatActivity {
         new_location_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Need to make new Activity for this", Toast.LENGTH_LONG);
+
+                Intent intent = new Intent(getApplicationContext(), CreateLocationAlarm.class);
+                startActivity(intent);
             }
         });
 
@@ -132,9 +142,45 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        //This is pending further handling
+        //-Max
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        //This method will give the last retrieved location. We are retrieving FINE_LOCATION as
+        //indicated in the AndroidManifest.xml
+        //-Max
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        Log.i("Active", String.valueOf(location.getLatitude()));
+                        Log.i("Active", String.valueOf(location.getLongitude()));
+                        System.out.println("What na");
+                        if (location != null) {
+                            //TODO: Logic to handle location object
+                            Log.i("Inactive", "DOesn't work.");
+                            System.out.println("What how");
+                        }
+                    }
+                });
     }
+
+    /**
+     IMPLEMENTED FROM googlesamples
+     https://github.com/googlesamples/android-play-location
+     */
 
     @Override
     public void onStart() {
@@ -146,6 +192,9 @@ public class MainActivity extends AppCompatActivity {
             getLastLocation();
         }
     }
+
+
+
 
     /**
      * Provides a simple way of getting a device's location and is well suited for
@@ -162,20 +211,63 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
                         if (task.isSuccessful() && task.getResult() != null) {
-                            mLastLocation = task.getResult();
 
-                            mLatitudeText.setText(String.format(Locale.ENGLISH, "%s: %f",
-                                    mLatitudeLabel,
-                                    mLastLocation.getLatitude()));
-                            mLongitudeText.setText(String.format(Locale.ENGLISH, "%s: %f",
-                                    mLongitudeLabel,
-                                    mLastLocation.getLongitude()));
+                            myLocation = task.getResult();
+                            Longitude = myLocation.getLongitude();
+                            Latitude = myLocation.getLatitude();
+                            Log.i("Created", String.valueOf(Latitude));
+
+//                            mLastLocation = task.getResult();
+//
+//                            mLatitudeText.setText(String.format(Locale.ENGLISH, "%s: %f",
+//                                    mLatitudeLabel,
+//                                    mLastLocation.getLatitude()));
+//                            mLongitudeText.setText(String.format(Locale.ENGLISH, "%s: %f",
+//                                    mLongitudeLabel,
+//                                    mLastLocation.getLongitude()));
                         } else {
                             Log.w(TAG, "getLastLocation:exception", task.getException());
-                            showSnackbar(getString(R.string.no_location_detected));
+                            showSnackbar("No location detected. Make sure location is enabled on the device.");
+
                         }
                     }
                 });
+    }
+
+    /**
+     * Location change algorithm found here:
+     * https://stackoverflow.com/questions/18170131/comparing-two-locations-using-their-longitude-and-latitude
+     */
+    private void onLocationChanged(Location location){
+        double lat2 = location.getLatitude();
+        double lng2 = location.getLongitude();
+
+        if (distance(Latitude, Longitude, lat2, lng2) < 0.002){
+            // if distance < 10.56 feet, both locations will be considered equal
+
+            //sound alarm here
+        }
+    }
+
+    /** calculates the distance between two locations in MILES */
+    private double distance(double lat1, double lng1, double lat2, double lng2) {
+
+        double earthRadius = 3958.75; // in miles, change to 6371 for kilometer output
+
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLng = Math.toRadians(lng2 - lng1);
+
+        double sindLat = Math.sin(dLat / 2);
+        double sindLng = Math.sin(dLng / 2);
+
+        double a = Math.pow(sindLat, 2) + Math.pow(sindLng, 2)
+                * Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2));
+
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        double dist = earthRadius * c;
+
+        return dist; // output distance, in MILES
     }
 
     /**
@@ -184,10 +276,10 @@ public class MainActivity extends AppCompatActivity {
      * @param text The Snackbar text.
      */
     private void showSnackbar(final String text) {
-        View container = findViewById(R.id.main_activity_container);
-        if (container != null) {
-            Snackbar.make(container, text, Snackbar.LENGTH_LONG).show();
-        }
+//        View container = findViewById(R.id.main_activity_container);
+//        if (container != null) {
+//            Snackbar.make(container, text, Snackbar.LENGTH_LONG).show();
+//        }
     }
 
     /**
@@ -210,28 +302,28 @@ public class MainActivity extends AppCompatActivity {
      */
     private boolean checkPermissions() {
         int permissionState = ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION);
+                Manifest.permission.ACCESS_FINE_LOCATION);
         return permissionState == PackageManager.PERMISSION_GRANTED;
     }
 
     private void startLocationPermissionRequest() {
         ActivityCompat.requestPermissions(MainActivity.this,
-                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                 REQUEST_PERMISSIONS_REQUEST_CODE);
     }
-
 
     private void requestPermissions() {
         boolean shouldProvideRationale =
                 ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.ACCESS_COARSE_LOCATION);
+                        Manifest.permission.ACCESS_FINE_LOCATION);
 
         // Provide an additional rationale to the user. This would happen if the user denied the
         // request previously, but didn't check the "Don't ask again" checkbox.
         if (shouldProvideRationale) {
             Log.i(TAG, "Displaying permission rationale to provide additional context.");
 
-            showSnackbar(R.string.permission_rationale, android.R.string.ok,
+            //Broken "mainTextStringId"
+            showSnackbar(2, android.R.string.ok,
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -247,6 +339,7 @@ public class MainActivity extends AppCompatActivity {
             // previously and checked "Never ask again".
             startLocationPermissionRequest();
         }
+
     }
 
     /**
@@ -276,24 +369,27 @@ public class MainActivity extends AppCompatActivity {
                 // again" prompts). Therefore, a user interface affordance is typically implemented
                 // when permissions are denied. Otherwise, your app could appear unresponsive to
                 // touches or interactions which have required permissions.
-                showSnackbar(R.string.permission_denied_explanation, R.string.settings,
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                // Build intent that displays the App settings screen.
-                                Intent intent = new Intent();
-                                intent.setAction(
-                                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package",
-                                        BuildConfig.APPLICATION_ID, null);
-                                intent.setData(uri);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                            }
-                        });
+
+
+//                showSnackbar(R.string.permission_denied_explanation, R.string.settings,
+//                        new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                // Build intent that displays the App settings screen.
+//                                Intent intent = new Intent();
+//                                intent.setAction(
+//                                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+//                                Uri uri = Uri.fromParts("package",
+//                                        BuildConfig.APPLICATION_ID, null);
+//                                intent.setData(uri);
+//                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                startActivity(intent);
+//                            }
+//                        });
             }
         }
     }
+
 
     //Class for switching between activities
     public void createAlarm(){
