@@ -242,8 +242,8 @@ public class MainActivity extends AppCompatActivity {
         double lat2 = location.getLatitude();
         double lng2 = location.getLongitude();
 
-        if (distance(Latitude, Longitude, lat2, lng2) < 0.002){
-            // if distance < 10.56 feet, both locations will be considered equal
+        if (distance(Latitude, Longitude, lat2, lng2) < 0.001){
+            // if distance < 6 feet, both locations will be considered equal
 
             //sound alarm here
         }
