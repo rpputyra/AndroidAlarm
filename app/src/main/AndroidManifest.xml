@@ -36,7 +36,9 @@
         <activity
             android:name=".CreateLocationAlarm"
             android:label="@string/title_activity_create_location_alarm"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <service android:name=".LocationService" android:process=":my_service" />
     </application>
 
 </manifest>
