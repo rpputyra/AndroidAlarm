@@ -69,14 +69,9 @@ public class CreateLocationAlarm extends AppCompatActivity {
                     alarmIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
                     alarmIntent.putExtra(EXTRA_MESSAGE, name.getText().toString());
                     alarmIntent.putExtra(EXTRA_LOCATION, "004444, 123123");
+                    alarmIntent.putExtra(EXTRA_DATA, "true");
                     final int _id = (int) System.currentTimeMillis();
                     pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), _id, alarmIntent, 0);
-                alarmIntent = new Intent(getApplicationContext(), AlarmReceiver.class);
-                alarmIntent.putExtra(EXTRA_MESSAGE, name.getText().toString());
-                alarmIntent.putExtra(EXTRA_LOCATION, "004444, 123123");
-                alarmIntent.putExtra(EXTRA_DATA, "true");
-                final int _id = (int) System.currentTimeMillis();
-                pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), _id, alarmIntent, 0);
 
                     manager.setExact(AlarmManager.RTC_WAKEUP
                             , System.currentTimeMillis() + milliseconds
