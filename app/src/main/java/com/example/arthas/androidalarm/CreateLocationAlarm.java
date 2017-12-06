@@ -41,7 +41,7 @@ public class CreateLocationAlarm extends AppCompatActivity {
 
         name = findViewById(R.id.message_timer);
 
-        edit_minute = findViewById(R.id.editminute);
+        edit_minute = findViewById(R.id.minute_location);
 
         //the create button should exit this Activity and create a new alarm.
         start_timer = findViewById(R.id.start_timer_btn);
